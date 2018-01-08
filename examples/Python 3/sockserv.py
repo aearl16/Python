@@ -80,7 +80,7 @@ print("connectionSevered:{0}".format(connectionSevered))
 while (connectionSevered==0):
     try:
         response = raw_input()
-        # The u"\r\n" Singals termination of the message
+        # The u"\r\n" Singals termination of the message and to close the connection on the client side
         # This may be different for each language or system the server is interacting with  
         c.send_msg(response + u"\r\n")
     except:
