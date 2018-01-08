@@ -70,7 +70,7 @@ except socket.error:
 # its listening on
 print('[+] Listening for connections on port: {0}'.format(port))
 
-# Accept the connection and return the message
+# Start the threaded server and accept the connection, return the message when connected
 conn, address = s.accept()
 c = client(conn)
 c.start()
@@ -79,7 +79,9 @@ c.send_msg(u"\r\n")
 print("connectionSevered:{0}".format(connectionSevered)) 
 while (connectionSevered==0):
     try:
-        response = raw_input()  
+        response = raw_input()
+        # The u"\r\n" Singals termination of the message
+        # This may be different for each language or system the server is interacting with  
         c.send_msg(response + u"\r\n")
     except:
         c.close()
