@@ -19,9 +19,10 @@ class dbCommander():
     #Constructor
     def __init__(self):
 
-        self.conn = mysql.connector.connect(host="hostnamehere",
+        self.conn = mysql.connector.connect(host="urhost",
                                             port=3306,
-                                            user="user",
+                                            user="uruser",
+                                            password = "urpass",
                                             db="urdb")
         self.cursor = self.conn.cursor()
     #Del method will close the connection automatically
@@ -109,7 +110,7 @@ class dbCommander():
     ## without commit statement (IE for Truncate or other operations with ##
     ## Implicit Commit)                                                   ##
     ########################################################################
-    def statementCommit(self, statement):
+    def statementNoCommit(self, statement):
         
         if(statement == None or ""):
             print("In Method statementNoCommit: statement was null")
@@ -144,7 +145,7 @@ class dbCommander():
     ## This method will take a large(list) dataset and upload it to the   ##
     ## database using the executemany statment                            ##
     ########################################################################
-    def uploadList(self, statment, data):
+    def uploadList(self, statement, data):
         
         if(statement == None or ""):
             print("In Method uploadMany: statement was null\n")
@@ -167,7 +168,7 @@ class dbCommander():
     ## This method will take a large(list) dataset and upload it to the   ##
     ## database using the executemany statment                            ##
     ########################################################################
-    def uploadDict(self, statment, data):
+    def uploadDict(self, statement, data):
         
         if(statement == None or ""):
             print("In Method uploadMany: statement was null\n")
@@ -253,7 +254,7 @@ class dbCommander():
             print("In Method writeCSV: directory was null")
             self.dbHelp(self)
             return False
-        elif(os.direxists(directory) == False):
+        elif(os.path.exists(directory) == False):
             print("In Method writeCSV: directory does not exist")
             self.dbHelp(self)
             return False
@@ -262,7 +263,7 @@ class dbCommander():
             os.chdir(directory)
             
             with open(filename, 'w') as csvfile:
-                writer = csv.DictWriter(csvfile, fieldnames=cols)
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                 writer.writeheader()
                 for row in data:
                     writer.writerow(row)
